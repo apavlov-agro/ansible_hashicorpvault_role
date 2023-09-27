@@ -1,0 +1,12 @@
+vault_docker_networks: vault-net
+vault_docker_container_name: vault
+vault_docker_container_init_name: vault-init
+vault_docker_image: "vault:1.4.2"
+vault_docker_base_dir: /opt/vault
+vault_docker_config_dir: /opt/vault/config
+vault_docker_init_dir: /opt/vault/init
+vault_docker_data_vol: "vault-data"
+vault_docker_token: "development"
+vault_docker_storage:
+  type: "postgresql"
+  connection_url: "postgres://postgres:devpass@vautl_postgres:5432/vault"

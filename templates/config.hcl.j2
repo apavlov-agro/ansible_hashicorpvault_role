@@ -1,0 +1,14 @@
+ui = true
+
+listener "tcp" {
+  address     = "0.0.0.0:8200"
+  tls_disable = 1
+}
+{%if vault_docker_storage.type == 'postgresql' %}
+storage "{{ vault_docker_storage.type }}" {
+  connection_url = "{{ vault_docker_storage.connection_url }}"
+}
+
+api_addr = "http://127.0.0.1:8200"
+
+disable_mlock = "true"
