@@ -9,4 +9,4 @@ vault_docker_data_vol: "vault-data"
 vault_docker_token: "development"
 vault_docker_storage:
   type: "postgresql"
-  connection_url: "postgres://postgres:devpass@vautl_postgres:5432/vault"
+  connection_url: "postgres://postgres:devpass@vautl_postgres:5432/vault??ssl_mode=disable"

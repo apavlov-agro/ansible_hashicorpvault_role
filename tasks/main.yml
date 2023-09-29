@@ -1,6 +1,4 @@
 ---
-- name: install docker
-  include_tasks: install_docker.yml
 
 - name: config vault
   include_tasks: config_vault.yml
