@@ -21,6 +21,10 @@ create_token () {
    vault token create -id $MY_VAULT_TOKEN
 }
 
+ enable_audit () {
+   vault audit enable file file_path=stdout
+ }
+
 if [ -s /vault/file/keys ]; then
    unseal
 else
@@ -28,6 +32,7 @@ else
    unseal
    log_in
    create_token
+   enable_audit
 fi
 
 vault status > /vault/file/status
