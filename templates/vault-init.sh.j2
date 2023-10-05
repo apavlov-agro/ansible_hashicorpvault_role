@@ -32,7 +32,9 @@ else
    unseal
    log_in
    create_token
+{%if vault_audit_enabled %}
    enable_audit
+{%endif %}
 fi
 
 vault status > /vault/file/status

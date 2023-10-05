@@ -15,8 +15,8 @@
     dest: "{{ vault_docker_config_dir }}/config.hcl"
 
 - name: copy vault init script
-  copy:
-    src: "vault-init.sh"
+  template:
+    src: "vault-init.sh.j2"
     dest: "{{ vault_docker_init_dir }}/vault-init.sh"
     mode: 0740
 
