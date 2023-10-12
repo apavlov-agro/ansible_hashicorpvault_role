@@ -1,6 +1,5 @@
 ---
-
-- hosts: zabbix_test
+- hosts: all
   become: yes
   roles:
     - role: "../ansible_vault_role"
