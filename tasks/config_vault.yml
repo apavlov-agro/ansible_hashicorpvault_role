@@ -27,6 +27,12 @@
   docker_volume:
     name: "{{ vault_docker_data_vol }}"
 
+- name: Import keys to new install
+  copy:
+    remote_src: "{{ vault_import_keys_file }}"
+    dest: "{{vault_docker_keys_file}}"
+  when: vault_import_enabled
+
 - name: deploy vault
   docker_container:
     name: "{{ vault_docker_container_name }}"
@@ -60,3 +66,13 @@
     command: /usr/local/bin/vault-init.sh
     networks:
       - name: "{{ vault_docker_networks }}"
+
+- name: Pause before export keys file
+  pause:
+    minutes: 2
+
+- name: Save keys from installation
+  copy:
+    remote_src: "{{vault_docker_keys_file}}"
+    dest: "{{ vault_import_keys_file }}"
+  when: vault_export_enabled

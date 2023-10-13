@@ -5,6 +5,10 @@ vault_docker_image: "vault:1.4.2"
 vault_docker_base_dir: /opt/vault
 vault_docker_config_dir: /opt/vault/config
 vault_docker_init_dir: /opt/vault/init
+vault_import_keys_file: /opt/vault/config/keys
+vault_docker_keys_file: "/var/lib/docker/volume/{{vault_docker_data_vol}}/_data"
+vault_import_enabled: false
+vault_export_enabled: true
 vault_docker_data_vol: "vault-data"
 vault_docker_token: "development"
 vault_docker_storage:
