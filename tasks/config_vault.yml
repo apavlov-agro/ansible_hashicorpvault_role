@@ -27,11 +27,16 @@
   docker_volume:
     name: "{{ vault_docker_data_vol }}"
 
+- name: Check keys file
+  stat:
+    path: "{{ vault_import_keys_file }}"
+  register: keys_file_state
+
 - name: Import keys to new install
   copy:
     remote_src: "{{ vault_import_keys_file }}"
     dest: "{{vault_docker_keys_file}}"
-  when: vault_import_enabled
+  when: keys_file_state.stat.exists
 
 - name: deploy vault
   docker_container:
@@ -41,12 +46,12 @@
     capabilities:
       - IPC_LOCK
     ports:
-      - 8200:8200
+      - "{{ vault_docker_ext_port }}:{{ vault_docker_int_port }}"
     volumes:
       - "{{ vault_docker_config_dir }}/config.hcl:/vault/config/config.hcl"
       - "{{ vault_docker_data_vol }}:/vault/file/"
     env:
-      VAULT_ADDR: "http://localhost:8200"
+      VAULT_ADDR: "http://127.0.0.1:{{ vault_docker_ext_port }}"
     command: server
     networks:
       - name: "{{ vault_docker_networks }}"

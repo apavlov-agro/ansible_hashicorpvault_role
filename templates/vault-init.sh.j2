@@ -17,6 +17,9 @@ log_in () {
    vault login $ROOT_TOKEN
 }
 
+export_key_file () {
+    apt-get update && apt-get install gnupg
+    gpg -o {{ vault_export_keys }}  --symmetric  --passphrase --quiet --batch /vault/file/keys
 create_token () {
    vault token create -id $MY_VAULT_TOKEN
 }
