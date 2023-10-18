@@ -18,8 +18,9 @@ log_in () {
 }
 
 export_key_file () {
-    apt-get update && apt-get install gnupg
-    gpg -o {{ vault_export_keys }}  --symmetric  --passphrase --quiet --batch /vault/file/keys
+    apk update && apk add gnupg
+    gpg -o {{ vault_export_keys_file }}  --symmetric  --passphrase {{ vault_export_keys_passphrase }}--quiet --batch /vault/file/keys
+    }
 create_token () {
    vault token create -id $MY_VAULT_TOKEN
 }
@@ -38,6 +39,7 @@ else
 {%if vault_audit_enabled %}
    enable_audit
 {%endif %}
+    export_key_file
 fi
 
 vault status > /vault/file/status

@@ -5,8 +5,18 @@ vault_docker_image: "vault:1.4.2"
 vault_docker_base_dir: /opt/vault
 vault_docker_config_dir: /opt/vault/config
 vault_docker_init_dir: /opt/vault/init
+vault_docker_import_dir: /opt/vault/import
+vault_docker_export_dir: /opt/vault/export
 vault_import_keys_file: /opt/vault/import/keys
 vault_export_keys_file: /opt/vault/export/keys
+vault_export_keys_passphrase: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  38343935353733303331383230343532333765343835366565616463353732633036396366663338
+  3966643333386136613132303364623330376632303932620a306236343237373634313563633539
+  34366538353730346537343131393366653735353564646236383032373364353032663633666663
+  6163383133383836650a636431393364623433636237346535336438353866343234666236383164
+  3132
+
 vault_docker_keys_file: "/var/lib/docker/volume/{{vault_docker_data_vol}}/_data"
 vault_import_enabled: false
 vault_export_enabled: true
@@ -14,9 +24,9 @@ vault_docker_data_vol: "vault-data"
 vault_docker_token: "development"
 vault_docker_storage:
   type: "postgresql"
-  connection_url: "postgres://postgres:devpass@vautl_postgres:5432/vault?ssl_mode=disable"
+  connection_url: "postgres://postgres:devpass@vault-postgres:5432/vault?sslmode=disable"
 vault_docker_int_port: 8200
 vault_docker_ext_port: 8200
-vault_listen_address: "{{ ansible_default_ipv4.address }}:{{ vault_docker_int_port }}"
-vault_api_addr: "http://127.0.0.1:vault_docker_ext_port"
+vault_listen_address: "0.0.0.0:{{ vault_docker_int_port }}"
+vault_api_addr: "http://127.0.0.1:{{ vault_docker_ext_port }}"
 vault_audit_enabled: true
