@@ -9,7 +9,7 @@
       - "{{ vault_docker_init_dir }}/vault-root-token:/vault/file/vault-root-token"
       - "{{ vault_docker_init_dir }}/vault-init.sh:/usr/local/bin/vault-init.sh"
       - "{{ vault_docker_data_vol }}:/vault/file/"
-      - "{{ vault_export_dir }}:{{ vault_export_dir }}"
+      - "{{ vault_docker_export_dir }}:{{ vault_docker_export_dir }}"
     env:
       VAULT_ADDR: "http://vault:8200"
       MY_VAULT_TOKEN: "{{ vault_docker_token }}"

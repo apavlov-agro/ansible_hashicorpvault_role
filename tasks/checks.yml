@@ -1,15 +1,16 @@
 ---
 
-- name: Pause before export keys file
-  pause:
-    minutes: 2
+- name: Retry a  until init container is stopped
+  docker_container_info:
+    name: "{{ vault_docker_container_init_name }}"
+  register: result
+  until: result.container['State']['Status'] !="running"
+  retries: 5
+  delay: 10
 
 - name: check vault status
   community.docker.docker_container_exec:
     container: "{{ vault_docker_container_name }}"
     command: "vault status"
   register: result
-
-- name: Print vault status
-  debug:
-    var: result.stdout
+  failed_when: result.stdout is not regex('^Initialized[ \t]+true.*$\n^Sealed[ \t]+false$', ignorecase=True, multiline=True)
