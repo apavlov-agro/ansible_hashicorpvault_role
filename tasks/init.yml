@@ -1,5 +1,4 @@
 ---
-
 - name: additional vault init
   docker_container:
     name: "{{ vault_docker_container_init_name }}"
@@ -11,7 +10,7 @@
       - "{{ vault_docker_data_vol }}:/vault/file/"
       - "{{ vault_docker_export_dir }}:{{ vault_docker_export_dir }}"
     env:
-      VAULT_ADDR: "http://vault:8200"
+      VAULT_ADDR: "http://{{ vault_docker_container_name }}:{{ vault_docker_int_port }}"
       MY_VAULT_TOKEN: "{{ vault_docker_token }}"
     command: /usr/local/bin/vault-init.sh
     networks:

@@ -1,6 +1,5 @@
 ---
-
-- name: Retry a  until init container is stopped
+- name: Retry container status  until init container is not running
   docker_container_info:
     name: "{{ vault_docker_container_init_name }}"
   register: result

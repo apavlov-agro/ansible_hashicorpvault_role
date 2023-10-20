@@ -9,14 +9,7 @@ vault_docker_import_dir: /opt/vault/import
 vault_docker_export_dir: /opt/vault/export
 vault_import_keys_file: /opt/vault/import/keys
 vault_export_keys_file: /opt/vault/export/keys
-vault_export_keys_passphrase: !vault |
-  $ANSIBLE_VAULT;1.1;AES256
-  38343935353733303331383230343532333765343835366565616463353732633036396366663338
-  3966643333386136613132303364623330376632303932620a306236343237373634313563633539
-  34366538353730346537343131393366653735353564646236383032373364353032663633666663
-  6163383133383836650a636431393364623433636237346535336438353866343234666236383164
-  3132
-
+vault_export_keys_passphrase: "passphrase to encrypt key file"
 vault_docker_keys_file: "/var/lib/docker/volume/{{vault_docker_data_vol}}/_data"
 vault_import_enabled: false
 vault_export_enabled: true

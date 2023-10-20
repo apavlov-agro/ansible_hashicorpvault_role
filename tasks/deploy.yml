@@ -1,5 +1,4 @@
 ---
-
 - name: deploy vault
   docker_container:
     name: "{{ vault_docker_container_name }}"
@@ -13,7 +12,7 @@
       - "{{ vault_docker_config_dir }}/config.hcl:/vault/config/config.hcl"
       - "{{ vault_docker_data_vol }}:/vault/file/"
     env:
-      VAULT_ADDR: "http://127.0.0.1:{{ vault_docker_ext_port }}"
+      VAULT_ADDR: "http://127.0.0.1:{{ vault_docker_int_port }}"
     command: server
     networks:
       - name: "{{ vault_docker_networks }}"

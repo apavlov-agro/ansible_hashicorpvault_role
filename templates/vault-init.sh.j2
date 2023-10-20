@@ -19,8 +19,10 @@ log_in () {
 
 export_key_file () {
     apk update && apk add gnupg
-    gpg -o {{ vault_export_keys_file }}  --symmetric  --passphrase {{ vault_export_keys_passphrase }}--quiet --batch /vault/file/keys
-    }
+    gpg -o {{ vault_export_keys_file }} --symmetric --passphrase {{ vault_export_keys_passphrase }} --quiet --batch /vault/file/keys
+    date > {{ vault_export_keys_file }}.done
+}
+
 create_token () {
    vault token create -id $MY_VAULT_TOKEN
 }

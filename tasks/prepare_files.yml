@@ -1,5 +1,4 @@
 ---
-
 - name: ensure path for deploy vault exists
   file:
     path: "{{ item }}"

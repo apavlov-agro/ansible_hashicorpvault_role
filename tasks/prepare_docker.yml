@@ -1,5 +1,4 @@
 ---
-
 - name: add network to docker
   docker_network:
     name: "{{ vault_docker_networks }}"
