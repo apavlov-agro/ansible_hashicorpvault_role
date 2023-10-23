@@ -13,3 +13,9 @@
     command: "vault status"
   register: result
   failed_when: result.stdout is not regex('^Initialized[ \t]+true.*$\n^Sealed[ \t]+false$', ignorecase=True, multiline=True)
+
+- name: check key file exists
+  stat:
+    path: "{{ vault_export_keys_file }}.done"
+  register: keyfile_stat
+  failed_when: not keyfile_stat.stat.exists
