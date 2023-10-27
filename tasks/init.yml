@@ -1,0 +1,17 @@
+---
+- name: additional vault init
+  docker_container:
+    name: "{{ vault_docker_container_init_name }}"
+    image: "{{ vault_docker_image }}"
+    restart_policy: on-failure
+    volumes:
+      - "{{ vault_docker_init_dir }}/vault-root-token:/vault/file/vault-root-token"
+      - "{{ vault_docker_init_dir }}/vault-init.sh:/usr/local/bin/vault-init.sh"
+      - "{{ vault_docker_data_vol }}:/vault/file/"
+      - "{{ vault_docker_export_dir }}:{{ vault_docker_export_dir }}"
+    env:
+      VAULT_ADDR: "http://{{ vault_docker_container_name }}:{{ vault_docker_int_port }}"
+      MY_VAULT_TOKEN: "{{ vault_docker_token }}"
+    command: /usr/local/bin/vault-init.sh
+    networks:
+      - name: "{{ vault_docker_networks }}"

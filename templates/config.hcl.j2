@@ -1,0 +1,14 @@
+ui = true
+
+listener "tcp" {
+  address     = "{{ vault_listen_address }}"
+  tls_disable = 1
+}
+{%if vault_docker_storage.type == 'postgresql' %}
+storage "{{ vault_docker_storage.type }}" {
+  connection_url = "{{ vault_docker_storage.connection_url }}"
+}
+{%endif %}
+api_addr = "{{ vault_api_addr }}"
+
+disable_mlock = "true"

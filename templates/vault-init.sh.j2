@@ -1,0 +1,47 @@
+#!/usr/bin/env sh
+
+set -ex
+
+unseal () {
+   vault operator unseal $(grep 'Key 1:' /vault/file/keys | awk '{print $NF}')
+   vault operator unseal $(grep 'Key 2:' /vault/file/keys | awk '{print $NF}')
+   vault operator unseal $(grep 'Key 3:' /vault/file/keys | awk '{print $NF}')
+}
+
+init () {
+   vault operator init > /vault/file/keys
+}
+
+log_in () {
+   export ROOT_TOKEN=$(grep 'Initial Root Token:' /vault/file/keys | awk '{print $NF}')
+   vault login $ROOT_TOKEN
+}
+
+export_key_file () {
+    apk update && apk add gnupg
+    gpg -o {{ vault_export_keys_file }} --symmetric --passphrase {{ vault_export_keys_passphrase }} --quiet --batch /vault/file/keys \
+    && date > {{ vault_export_keys_file }}.done
+}
+
+create_token () {
+   vault token create -id $MY_VAULT_TOKEN
+}
+
+ enable_audit () {
+   vault audit enable file file_path=stdout
+ }
+
+if [ -s /vault/file/keys ]; then
+   unseal
+else
+   init
+   unseal
+   log_in
+   create_token
+{%if vault_audit_enabled %}
+   enable_audit
+{%endif %}
+    export_key_file
+fi
+
+vault status > /vault/file/status

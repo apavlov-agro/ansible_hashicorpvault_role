@@ -1,0 +1,15 @@
+---
+- name: prepare files for deploy
+  include_tasks: prepare_files.yml
+
+- name: prepare docker entities
+  include_tasks: prepare_docker.yml
+
+- name: start vault container
+  include_tasks: deploy.yml
+
+- name: Initialization of vault (init or unseal)
+  include_tasks: init.yml
+
+- name: Check vault instance
+  include_tasks: checks.yml

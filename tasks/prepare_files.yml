@@ -1,0 +1,39 @@
+---
+- name: ensure path for deploy vault exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ vault_docker_base_dir }}"
+    - "{{ vault_docker_config_dir }}"
+    - "{{ vault_docker_init_dir }}"
+    - "{{ vault_docker_import_dir }}"
+    - "{{ vault_docker_export_dir }}"
+
+- name: copy vault config
+  template:
+    src: "config.hcl.j2"
+    dest: "{{ vault_docker_config_dir }}/config.hcl"
+
+- name: copy vault init script
+  template:
+    src: "vault-init.sh.j2"
+    dest: "{{ vault_docker_init_dir }}/vault-init.sh"
+    mode: 0740
+
+- name: copy postgres sql script
+  template:
+    src: "vault_table.sql.j2"
+    dest: "{{ vault_docker_init_dir }}/vault_table.sql"
+    mode: 0740
+
+- name: Check keys file
+  stat:
+    path: "{{ vault_import_keys_file }}"
+  register: keys_file_state
+
+- name: Import keys to new install
+  copy:
+    remote_src: "{{ vault_import_keys_file }}"
+    dest: "{{vault_docker_keys_file}}"
+  when: keys_file_state.stat.exists

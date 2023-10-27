@@ -1,0 +1,8 @@
+---
+- name: add network to docker
+  docker_network:
+    name: "{{ vault_docker_networks }}"
+
+- name: Create a volume
+  docker_volume:
+    name: "{{ vault_docker_data_vol }}"
